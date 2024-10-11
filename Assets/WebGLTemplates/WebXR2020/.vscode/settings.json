@@ -1,0 +1,9 @@
+{
+  "liveServer.settings.port": 7777,
+  "liveServer.settings.https": {
+    "enable": true,
+    "cert": "C:/Users/Max/Documents/Unity/ARCHIVE/localhost.pem",
+    "key": "C:/Users/Max/Documents/Unity/ARCHIVE/localhost.key",
+    "passphrase": "devServer"
+  }
+}
