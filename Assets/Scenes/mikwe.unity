@@ -2056,7 +2056,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &440688401
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3512,7 +3512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &867024822
 Transform:
   m_ObjectHideFlags: 0
@@ -7079,7 +7079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!54 &1543435173
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7225,7 +7225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1544748171
 Transform:
   m_ObjectHideFlags: 0
@@ -8004,7 +8004,6 @@ MonoBehaviour:
   mouseSensitivity: 5
   movementSpeed: 5
   gravity: 0.5
-  virtualControllerTest: {fileID: 1457057797}
 --- !u!1 &1694373858
 GameObject:
   m_ObjectHideFlags: 0

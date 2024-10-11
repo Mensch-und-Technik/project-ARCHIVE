@@ -20,7 +20,7 @@ public class DesktopMovement : MonoBehaviour
     float forwardVelocity, sidewaysVelocity, verticalVelocity;
     CharacterController controller;
 
-    public GameObject virtualControllerTest;
+    //public GameObject virtualControllerTest;
 
     WebXRState currentState = WebXRState.NORMAL;
 
@@ -44,14 +44,14 @@ public class DesktopMovement : MonoBehaviour
             Rotation();
             Movement();
 
-            if(virtualControllerTest.activeSelf){
+            //if(virtualControllerTest.activeSelf){
                 //virtualControllerTest.SetActive(false);
-            }        
-        } else if(currentState == WebXRState.AR) {
-            if(!virtualControllerTest.activeSelf){
+            //}        
+        } //else if(currentState == WebXRState.AR) {
+            //if(!virtualControllerTest.activeSelf){
                 //virtualControllerTest.SetActive(true);
-            }
-        }
+            //}
+        //}
 
         //WebXRState.AR:
         //WebXRState.VR:
