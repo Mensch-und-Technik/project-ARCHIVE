@@ -8,6 +8,7 @@
     - setup SSL
         - follow this guide till step 4 https://puvox.software/blog/install-ssl-https-on-wamp-server/
             - add the following lines of code to httpd-ssl.conf as well:
+
             ´´´
             <Directory "${INSTALL_DIR}/www/">
                 Options +Indexes +Includes +FollowSymLinks +MultiViews
@@ -15,13 +16,14 @@
                 Require all granted
             </Directory>
             ´´´
+
             - finish the guide above till the end
         - allow port 443 through firewall
             https://superuser.com/questions/432794/how-to-allow-remote-access-to-my-wamp-server
         - allow WAMP through firewall
             https://thewindowsclub.blog/de/how-to-allow-apps-through-firewall-on-windows-11/
     - !setup database
-- test https://192.168.XYZ.24:443
+- test (remotely) https://192.168.ABC.DE:443
 - useful references:
     https://blog.containerize.com/de/how-to-install-and-configure-wamp-server-on-windows/
     https://wampserver.aviatechno.net/
