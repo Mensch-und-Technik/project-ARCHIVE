@@ -16,7 +16,8 @@ namespace WebXR.Interactions
 public class LoadResourcesFromURL : MonoBehaviour
 	{
 		private string globalStringOfTruth = "";
-		public WebXRController physicalController;
+		//public WebXRController physicalController;
+		//public ActionBasedController physicalController;
 		public Camera m_camera;
 
 		
@@ -27,7 +28,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 		}
 		void Update()
     {
-		if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
+		/*if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
 			Debug.Log("Button A was pressed");
 
 			//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
@@ -37,7 +38,7 @@ public class LoadResourcesFromURL : MonoBehaviour
         	m_camera.backgroundColor = Color.clear;
 			
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
-		};
+		};*/
 		if (Input.touchCount > 0)
         {
 			Debug.Log("Screen touched");
@@ -109,7 +110,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 					myGO.tag = "Interactable";
 					//myGO.transform.position = new Vector3((float)mediaCounter*1.5f,2.25f,2.5f);
 					//myGO.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-					myGO.transform.SetParent(GameObject.Find("Interactables").transform);
+					//myGO.transform.SetParent(GameObject.Find("Interactables").transform);
 
 					myGO.AddComponent<Canvas>();
 					//myGO.AddComponent<CanvasScaler>();
@@ -128,7 +129,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 					myGO.AddComponent<RawImage>();
 					RawImage myRawImage = myGO.GetComponent<RawImage>();
 
-					//StartCoroutine(DownloadImage("./assets/" + asset, myRawImage));
+					//StartCoroutine(DownloadImage("./assets/" + asset, myRawImage, rectTForm));
 					StartCoroutine(DownloadImage("http://localhost/assets/" + asset, myRawImage, rectTForm));
 					//Debug.Log(asset);
 
