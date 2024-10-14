@@ -31,7 +31,7 @@ public class DesktopMovement : MonoBehaviour
         //controller = gameObject.GetComponent<CharacterController>();
         controller = GetComponentInParent<CharacterController>();
         currentState = WebXRManager.Instance.XRState;
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
     }
 
     // Update is called once per frame
@@ -59,6 +59,7 @@ public class DesktopMovement : MonoBehaviour
 
     }
     void Movement() {
+
     forwardVelocity = Input.GetAxis("Vertical") * movementSpeed;
     sidewaysVelocity = Input.GetAxis("Horizontal") * movementSpeed;
 

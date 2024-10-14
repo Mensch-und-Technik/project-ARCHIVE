@@ -15,18 +15,51 @@ namespace WebXR.Interactions
 {
 public class LoadResourcesFromURL : MonoBehaviour
 	{
-		private string globalStringOfTruth;
+		private string globalStringOfTruth = "";
+		public WebXRController physicalController;
+		public Camera m_camera;
+
+		
 		void Start(){
 			//Coroutine GetAssetsList() starts coroutine UpdateRecords() + calls CreateMediaObjects() which again starts coroutine DownloadImage() 
-			//StartCoroutine(GetAssetsList("https://www-user.tu-chemnitz.de/~mkul/ARCHIVE/built_240924_00/listAssets.php"));
-			//StartCoroutine(GetAssetsList("http://localhost/listAssets.php"));
-			StartCoroutine(GetAssetsList("./listAssets.php"));
+			StartCoroutine(GetAssetsList("http://localhost/listAssets.php"));
+			//StartCoroutine(GetAssetsList("./listAssets.php"));
 		}
 		void Update()
     {
+		if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
+			Debug.Log("Button A was pressed");
+
+			//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
+          	//m_camera.GetComponent<WebXRCameraSettings>().VRBackgroundColor = Color.clear;
+
+			m_camera.clearFlags = CameraClearFlags.SolidColor;
+        	m_camera.backgroundColor = Color.clear;
+			
+			StartCoroutine(UpdateRecords(globalStringOfTruth));
+		};
+		if (Input.touchCount > 0)
+        {
+			Debug.Log("Screen touched");
+			
+			//m_camera.GetComponent<WebXRCameraSettings>().ARClearFlags = CameraClearFlags.SolidColor;
+			//m_camera.GetComponent<WebXRCameraSettings>().ARBackgroundColor = Color.clear;
+
+			m_camera.clearFlags = CameraClearFlags.SolidColor;
+        	m_camera.backgroundColor = Color.clear;
+
+			StartCoroutine(UpdateRecords(globalStringOfTruth));
+		}
         if (Input.GetKeyUp("space"))
         {
             Debug.Log("Space key was released");
+
+			//m_camera.GetComponent<WebXRCameraSettings>().NormalClearFlags = CameraClearFlags.SolidColor;
+			//m_camera.GetComponent<WebXRCameraSettings>().NormalBackgroundColor = Color.clear;
+
+			m_camera.clearFlags = CameraClearFlags.SolidColor;
+        	m_camera.backgroundColor = Color.clear;
+			
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
         }
     }
@@ -84,7 +117,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 					Canvas myCanvas = myGO.GetComponent<Canvas>();
 					myCanvas.renderMode = RenderMode.WorldSpace;
 					myCanvas.worldCamera = Camera.main;
-					myCanvas.GetComponent<RectTransform>().sizeDelta = new Vector2(1, 1);
+					RectTransform rectTForm = myCanvas.GetComponent<RectTransform>();	//= new Vector2(1, 1);
 
 					myGO.AddComponent<BoxCollider>();
 					//TO-DO: set Box Collider Size 1,1,0
@@ -95,17 +128,17 @@ public class LoadResourcesFromURL : MonoBehaviour
 					myGO.AddComponent<RawImage>();
 					RawImage myRawImage = myGO.GetComponent<RawImage>();
 
-					StartCoroutine(DownloadImage("./assets/" + asset, myRawImage));
+					//StartCoroutine(DownloadImage("./assets/" + asset, myRawImage));
+					StartCoroutine(DownloadImage("http://localhost/assets/" + asset, myRawImage, rectTForm));
 					//Debug.Log(asset);
 
-					//StartCoroutine(DownloadImage("http://localhost/assets/" + asset, myRawImage));
 					StartCoroutine(ReadRecords(stringOfTruth));
 
 					mediaCounter++;
 				}
 			}
 		}
-		IEnumerator DownloadImage(string mediaUrl, RawImage rawImage2Bset){
+		IEnumerator DownloadImage(string mediaUrl, RawImage rawImage2Bset, RectTransform rectTForm){
 			UnityWebRequest request = UnityWebRequestTexture.GetTexture(mediaUrl);
 			yield return request.SendWebRequest();
 			if(request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError) {
@@ -113,6 +146,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 			}else{
 				rawImage2Bset.texture = ((DownloadHandlerTexture) request.downloadHandler).texture;
 			}
+			rawImage2Bset.SetNativeSize();
+			rectTForm.sizeDelta = rectTForm.sizeDelta/1000;
 		}
 		IEnumerator ReadRecords(string stringOfTruth){
 			//Create a Web Form
@@ -120,8 +155,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 			form.AddField("task", "ReadRecords");
 			form.AddField("stringOfTruth", stringOfTruth);
 
-			string uri = "./UnityDBcommunication.php";
-			//string uri = "http://localhost/UnityDBcommunication.php";
+			//string uri = "./UnityDBcommunication.php";
+			string uri = "http://localhost/UnityDBcommunication.php";
 			using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
 			{
 				// Request and wait for the desired page.
@@ -140,17 +175,17 @@ public class LoadResourcesFromURL : MonoBehaviour
 						Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
 						break;
 					case UnityWebRequest.Result.Success:
-						Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+						//Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
 						string fullAssetsString = webRequest.downloadHandler.text;
 						string[] fullAssetsArray = fullAssetsString.Split('\t');
 						GameObject currentObject;
 						string newAssets = stringOfTruth;
 						foreach (var fullAsset in fullAssetsArray){
 							if(fullAsset == ""){
-								Debug.Log("empty String item");
+								//Debug.Log("empty String item");
 							} else {
 							string[] assetColumns = fullAsset.Split(",");
-							Debug.Log(assetColumns[0]);
+							//Debug.Log(assetColumns[0]);
 							currentObject = GameObject.Find(assetColumns[0]);
 							currentObject.transform.localPosition = new Vector3(float.Parse(assetColumns[1], CultureInfo.InvariantCulture), float.Parse(assetColumns[2], CultureInfo.InvariantCulture), float.Parse(assetColumns[3], CultureInfo.InvariantCulture));
 							currentObject.transform.localRotation = Quaternion.Euler(float.Parse(assetColumns[4], CultureInfo.InvariantCulture), float.Parse(assetColumns[5], CultureInfo.InvariantCulture), float.Parse(assetColumns[6], CultureInfo.InvariantCulture));
@@ -159,7 +194,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						}
 
 						string[] newAssetsArray = newAssets.Split(" ");
-						Debug.Log("|" + newAssets + "|" + newAssetsArray.Length);
+						//Debug.Log("|" + newAssets + "|" + newAssetsArray.Length);
 						
 						int mediaCounter = 0;
 						foreach (var newAsset in newAssetsArray){
@@ -220,11 +255,9 @@ public class LoadResourcesFromURL : MonoBehaviour
 			form.AddField("yRotations", yRotations);
 			form.AddField("zRotations", zRotations);
 
-			//TRY json instead of form: using (UnityWebRequest www = UnityWebRequest.Post("https://www-user.tu-chemnitz.de/~mkul/ARCHIVE/UnityDBcommunication.php", "{ \"name\": 1 , \"name\": 2 }", "application/json"))
-			string uri = "./UnityDBcommunication.php";
-			//string uri = "http://localhost/UnityDBcommunication.php";
+			//string uri = "./UnityDBcommunication.php";
+			string uri = "http://localhost/UnityDBcommunication.php";
 			using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
-			//using (UnityWebRequest www = UnityWebRequest.Post("https://www-user.tu-chemnitz.de/~mkul/test.php", form))
 			{
 				yield return www.SendWebRequest();
 
