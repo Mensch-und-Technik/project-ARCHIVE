@@ -11,7 +11,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Globalization;
 
-namespace WebXR.Interactions
+//namespace WebXR.Interactions
+namespace UnityEngine.XR.Interaction.Toolkit
 {
 public class LoadResourcesFromURL : MonoBehaviour
 	{
@@ -23,19 +24,16 @@ public class LoadResourcesFromURL : MonoBehaviour
 		
 		void Start(){
 			//Coroutine GetAssetsList() starts coroutine UpdateRecords() + calls CreateMediaObjects() which again starts coroutine DownloadImage() 
-			StartCoroutine(GetAssetsList("http://localhost/listAssets.php"));
-			//StartCoroutine(GetAssetsList("./listAssets.php"));
+			//StartCoroutine(GetAssetsList("http://localhost/listAssets.php"));
+			StartCoroutine(GetAssetsList("./listAssets.php"));
 		}
 		void Update()
-    {
-		/*if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
+    	{
+			/*if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
 			Debug.Log("Button A was pressed");
 
 			//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
           	//m_camera.GetComponent<WebXRCameraSettings>().VRBackgroundColor = Color.clear;
-
-			m_camera.clearFlags = CameraClearFlags.SolidColor;
-        	m_camera.backgroundColor = Color.clear;
 			
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
 		};*/
@@ -46,9 +44,6 @@ public class LoadResourcesFromURL : MonoBehaviour
 			//m_camera.GetComponent<WebXRCameraSettings>().ARClearFlags = CameraClearFlags.SolidColor;
 			//m_camera.GetComponent<WebXRCameraSettings>().ARBackgroundColor = Color.clear;
 
-			m_camera.clearFlags = CameraClearFlags.SolidColor;
-        	m_camera.backgroundColor = Color.clear;
-
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
 		}
         if (Input.GetKeyUp("space"))
@@ -57,9 +52,6 @@ public class LoadResourcesFromURL : MonoBehaviour
 
 			//m_camera.GetComponent<WebXRCameraSettings>().NormalClearFlags = CameraClearFlags.SolidColor;
 			//m_camera.GetComponent<WebXRCameraSettings>().NormalBackgroundColor = Color.clear;
-
-			m_camera.clearFlags = CameraClearFlags.SolidColor;
-        	m_camera.backgroundColor = Color.clear;
 			
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
         }
@@ -107,7 +99,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 					GameObject myGO = new GameObject();
 					//myGO.SetActive(false);
 					myGO.name = asset;
-					myGO.tag = "Interactable";
+					//myGO.tag = "Interactable";
 					//myGO.transform.position = new Vector3((float)mediaCounter*1.5f,2.25f,2.5f);
 					//myGO.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
 					//myGO.transform.SetParent(GameObject.Find("Interactables").transform);
@@ -122,15 +114,17 @@ public class LoadResourcesFromURL : MonoBehaviour
 
 					myGO.AddComponent<BoxCollider>();
 					//TO-DO: set Box Collider Size 1,1,0
-					myGO.AddComponent(typeof(MouseDragObject));
+					//myGO.AddComponent(typeof(MouseDragObject));
+					myGO.AddComponent(typeof(XRGrabInteractable));
+					//myGO.AddComponent<XRGrabInteractable>();
 					myGO.GetComponent<Rigidbody>().useGravity = false;
 					myGO.GetComponent<Rigidbody>().isKinematic = true;
 
 					myGO.AddComponent<RawImage>();
 					RawImage myRawImage = myGO.GetComponent<RawImage>();
 
-					//StartCoroutine(DownloadImage("./assets/" + asset, myRawImage, rectTForm));
-					StartCoroutine(DownloadImage("http://localhost/assets/" + asset, myRawImage, rectTForm));
+					//StartCoroutine(DownloadImage("http://localhost/assets/" + asset, myRawImage, rectTForm));
+					StartCoroutine(DownloadImage("./assets/" + asset, myRawImage, rectTForm));
 					//Debug.Log(asset);
 
 					StartCoroutine(ReadRecords(stringOfTruth));
@@ -156,8 +150,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 			form.AddField("task", "ReadRecords");
 			form.AddField("stringOfTruth", stringOfTruth);
 
-			//string uri = "./UnityDBcommunication.php";
-			string uri = "http://localhost/UnityDBcommunication.php";
+			//string uri = "http://localhost/UnityDBcommunication.php";
+			string uri = "./UnityDBcommunication.php";
 			using (UnityWebRequest webRequest = UnityWebRequest.Post(uri, form))
 			{
 				// Request and wait for the desired page.
@@ -215,10 +209,17 @@ public class LoadResourcesFromURL : MonoBehaviour
 				}
 			}
 		}
+		
+		public void VirtualUpdateRecords(){
+			StartCoroutine(UpdateRecords(globalStringOfTruth));
+		}
 		IEnumerator UpdateRecords(string assetsString){
 			//TO-DO: Implement save button. Only UpdateRecords() after button has been used. 
 			//Currently all given Media objects get updatet. Do not update media that has not been moved away from default position. => gets reloaded next time eventually.
 			//Look into lookUp Pos + Rot after a file has been deleted. Objects move to strange places..
+
+			m_camera.clearFlags = CameraClearFlags.SolidColor;
+			m_camera.backgroundColor = Color.clear;
 
 			//Create a Web Form
 			WWWForm form = new WWWForm();
@@ -256,8 +257,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 			form.AddField("yRotations", yRotations);
 			form.AddField("zRotations", zRotations);
 
-			//string uri = "./UnityDBcommunication.php";
-			string uri = "http://localhost/UnityDBcommunication.php";
+			//string uri = "http://localhost/UnityDBcommunication.php";
+			string uri = "./UnityDBcommunication.php";
 			using (UnityWebRequest www = UnityWebRequest.Post(uri, form))
 			{
 				yield return www.SendWebRequest();
