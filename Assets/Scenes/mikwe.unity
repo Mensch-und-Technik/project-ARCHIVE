@@ -493,8 +493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bc0c6a284af724bbf0ab663b1f89e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicalController: {fileID: 1302711619}
-  m_camera: {fileID: 1636910331}
 --- !u!4 &50489825
 Transform:
   m_ObjectHideFlags: 0
@@ -5692,6 +5690,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20092747195267750, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20092747195267750, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_ClearFlags
       value: 1
       objectReference: {fileID: 0}
@@ -5729,19 +5731,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469175894405336353, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_arBackgroundColor.a
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2469175894405336353, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_arBackgroundColor.b
-      value: 0.47450984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2469175894405336353, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_arBackgroundColor.g
-      value: 0.3019608
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2469175894405336353, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_arBackgroundColor.r
-      value: 0.19215688
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2469175894405336353, guid: 54a613ba6e982e84db04156af08d6a89, type: 3}
       propertyPath: m_arCullingMask.m_Bits

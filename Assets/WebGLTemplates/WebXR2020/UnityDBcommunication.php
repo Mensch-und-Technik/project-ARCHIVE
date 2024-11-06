@@ -1,7 +1,7 @@
 <?php
 
-//$con = mysqli_connect('localhost', 'root', '', 'mediainventory');
-$con = mysqli_connect('mysql.hrz.tu-chemnitz.de', 'Project_ARCHIVE_DB_rw', 'thiwa2Oe', 'Project_ARCHIVE_DB');
+$con = mysqli_connect('localhost', 'root', '', 'mediainventory');
+//$con = mysqli_connect('mysql.hrz.tu-chemnitz.de', 'Project_ARCHIVE_DB_rw', 'thiwa2Oe', 'Project_ARCHIVE_DB');
 
 	//check connection
 	if(mysqli_connect_errno()){

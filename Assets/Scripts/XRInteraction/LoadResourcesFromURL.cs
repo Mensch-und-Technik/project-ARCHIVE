@@ -76,7 +76,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
 						break;
 					case UnityWebRequest.Result.Success:
-						//Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+						Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
 						string stringOfTruth = webRequest.downloadHandler.text;
 						globalStringOfTruth = stringOfTruth;
 						//string[] arrayOfTruth = stringOfTruth.Split(' ');
@@ -171,11 +171,12 @@ public class LoadResourcesFromURL : MonoBehaviour
 						break;
 					case UnityWebRequest.Result.Success:
 						//Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-						string fullAssetsString = webRequest.downloadHandler.text;
+						string fullAssetsString = webRequest.downloadHandler.text;	//datapaths + positions + rotations
 						string[] fullAssetsArray = fullAssetsString.Split('\t');
 						GameObject currentObject;
 						string newAssets = stringOfTruth;
 						foreach (var fullAsset in fullAssetsArray){
+							Debug.Log(fullAsset);
 							if(fullAsset == ""){
 								//Debug.Log("empty String item");
 							} else {
@@ -183,7 +184,9 @@ public class LoadResourcesFromURL : MonoBehaviour
 							//Debug.Log(assetColumns[0]);
 							currentObject = GameObject.Find(assetColumns[0]);
 							currentObject.transform.localPosition = new Vector3(float.Parse(assetColumns[1], CultureInfo.InvariantCulture), float.Parse(assetColumns[2], CultureInfo.InvariantCulture), float.Parse(assetColumns[3], CultureInfo.InvariantCulture));
-							currentObject.transform.localRotation = Quaternion.Euler(float.Parse(assetColumns[4], CultureInfo.InvariantCulture), float.Parse(assetColumns[5], CultureInfo.InvariantCulture), float.Parse(assetColumns[6], CultureInfo.InvariantCulture));
+							Quaternion targetRot = Quaternion.Euler(float.Parse(assetColumns[4], CultureInfo.InvariantCulture), float.Parse(assetColumns[5], CultureInfo.InvariantCulture), float.Parse(assetColumns[6], CultureInfo.InvariantCulture));
+							//Debug.Log(targetRot.eulerAngles.x + " " + targetRot.eulerAngles.y + " " + targetRot.eulerAngles.z);
+							currentObject.transform.rotation = targetRot;
 							newAssets = newAssets.Replace(assetColumns[0], "");
 							}
 						}
@@ -193,13 +196,14 @@ public class LoadResourcesFromURL : MonoBehaviour
 						
 						int mediaCounter = 0;
 						foreach (var newAsset in newAssetsArray){
+							//Debug.Log(newAsset);
 							if(newAsset == ""){
 								Debug.Log("Empty String");
 							} else {
 								//Debug.Log("|" + newAsset + "|");
 								currentObject = GameObject.Find(newAsset);
 								currentObject.transform.position = new Vector3((float)mediaCounter*1.5f,2.25f,2.5f);
-								currentObject.transform.localRotation = Quaternion.Euler(0,0,0);
+								currentObject.transform.rotation = Quaternion.Euler(0,0,0);
 							}
 							mediaCounter++;
 						}
@@ -218,8 +222,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 			//Currently all given Media objects get updatet. Do not update media that has not been moved away from default position. => gets reloaded next time eventually.
 			//Look into lookUp Pos + Rot after a file has been deleted. Objects move to strange places..
 
-			m_camera.clearFlags = CameraClearFlags.SolidColor;
-			m_camera.backgroundColor = Color.clear;
+			//m_camera.clearFlags = CameraClearFlags.SolidColor;
+			//m_camera.backgroundColor = Color.clear;
 
 			//Create a Web Form
 			WWWForm form = new WWWForm();
@@ -244,9 +248,9 @@ public class LoadResourcesFromURL : MonoBehaviour
 					yPositions = yPositions + currentObject.transform.localPosition.y.ToString("R", CultureInfo.InvariantCulture) + " ";
 					zPositions = zPositions + currentObject.transform.localPosition.z.ToString("R", CultureInfo.InvariantCulture) + " ";
 
-					xRotations = xRotations + currentObject.transform.rotation.x.ToString("R", CultureInfo.InvariantCulture) + " ";
-					yRotations = yRotations + currentObject.transform.rotation.y.ToString("R", CultureInfo.InvariantCulture) + " ";
-					zRotations = zRotations + currentObject.transform.rotation.z.ToString("R", CultureInfo.InvariantCulture) + " ";
+					xRotations = xRotations + currentObject.transform.rotation.eulerAngles.x.ToString("R", CultureInfo.InvariantCulture) + " ";
+					yRotations = yRotations + currentObject.transform.rotation.eulerAngles.y.ToString("R", CultureInfo.InvariantCulture) + " ";
+					zRotations = zRotations + currentObject.transform.rotation.eulerAngles.z.ToString("R", CultureInfo.InvariantCulture) + " ";
 				}
 			}
 
