@@ -29,33 +29,35 @@ public class LoadResourcesFromURL : MonoBehaviour
 		}
 		void Update()
     	{
-			/*if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
-			Debug.Log("Button A was pressed");
+			/*
+			if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
+				Debug.Log("Button A was pressed");
 
-			//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
-          	//m_camera.GetComponent<WebXRCameraSettings>().VRBackgroundColor = Color.clear;
-			
-			StartCoroutine(UpdateRecords(globalStringOfTruth));
-		};*/
-		if (Input.touchCount > 0)
-        {
-			Debug.Log("Screen touched");
-			
-			//m_camera.GetComponent<WebXRCameraSettings>().ARClearFlags = CameraClearFlags.SolidColor;
-			//m_camera.GetComponent<WebXRCameraSettings>().ARBackgroundColor = Color.clear;
+				//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
+				//m_camera.GetComponent<WebXRCameraSettings>().VRBackgroundColor = Color.clear;
 
-			StartCoroutine(UpdateRecords(globalStringOfTruth));
+				StartCoroutine(UpdateRecords(globalStringOfTruth));
+			};
+			if (Input.touchCount > 0)
+			{
+				Debug.Log("Screen touched");
+				
+				//m_camera.GetComponent<WebXRCameraSettings>().ARClearFlags = CameraClearFlags.SolidColor;
+				//m_camera.GetComponent<WebXRCameraSettings>().ARBackgroundColor = Color.clear;
+
+				StartCoroutine(UpdateRecords(globalStringOfTruth));
+			}
+			if (Input.GetKeyUp("space"))
+			{
+				Debug.Log("Space key was released");
+
+				//m_camera.GetComponent<WebXRCameraSettings>().NormalClearFlags = CameraClearFlags.SolidColor;
+				//m_camera.GetComponent<WebXRCameraSettings>().NormalBackgroundColor = Color.clear;
+				
+				StartCoroutine(UpdateRecords(globalStringOfTruth));
+			}
+			*/
 		}
-        if (Input.GetKeyUp("space"))
-        {
-            Debug.Log("Space key was released");
-
-			//m_camera.GetComponent<WebXRCameraSettings>().NormalClearFlags = CameraClearFlags.SolidColor;
-			//m_camera.GetComponent<WebXRCameraSettings>().NormalBackgroundColor = Color.clear;
-			
-			StartCoroutine(UpdateRecords(globalStringOfTruth));
-        }
-    }
 		IEnumerator GetAssetsList(string uri)
 		{
 			using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
@@ -76,7 +78,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
 						break;
 					case UnityWebRequest.Result.Success:
-						Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+						//Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
 						string stringOfTruth = webRequest.downloadHandler.text;
 						globalStringOfTruth = stringOfTruth;
 						//string[] arrayOfTruth = stringOfTruth.Split(' ');
@@ -176,7 +178,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						GameObject currentObject;
 						string newAssets = stringOfTruth;
 						foreach (var fullAsset in fullAssetsArray){
-							Debug.Log(fullAsset);
+							//Debug.Log(fullAsset);
 							if(fullAsset == ""){
 								//Debug.Log("empty String item");
 							} else {
@@ -198,7 +200,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						foreach (var newAsset in newAssetsArray){
 							//Debug.Log(newAsset);
 							if(newAsset == ""){
-								Debug.Log("Empty String");
+								//Debug.Log("Empty String");
 							} else {
 								//Debug.Log("|" + newAsset + "|");
 								currentObject = GameObject.Find(newAsset);
@@ -214,10 +216,23 @@ public class LoadResourcesFromURL : MonoBehaviour
 			}
 		}
 		
+		public void RefreshAssets(){
+
+			string[] arrayOfTruth = globalStringOfTruth.Split(' ');
+			foreach (var asset in arrayOfTruth){
+				Destroy(GameObject.Find(asset));				
+			}
+			//StartCoroutine(GetAssetsList("http://localhost/listAssets.php"));
+			StartCoroutine(GetAssetsList("./listAssets.php"));
+		}
+
 		public void VirtualUpdateRecords(){
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
 		}
 		IEnumerator UpdateRecords(string assetsString){
+
+			//Debug.Log(assetsString);
+			
 			//TO-DO: Implement save button. Only UpdateRecords() after button has been used. 
 			//Currently all given Media objects get updatet. Do not update media that has not been moved away from default position. => gets reloaded next time eventually.
 			//Look into lookUp Pos + Rot after a file has been deleted. Objects move to strange places..
@@ -276,8 +291,8 @@ public class LoadResourcesFromURL : MonoBehaviour
 				}
 				else
 				{
-					Debug.Log("Form upload complete!");
-					Debug.Log(pages[page] + ":\nReceived: " + www.downloadHandler.text);
+					//Debug.Log("Form upload complete!");
+					//Debug.Log(pages[page] + ":\nReceived: " + www.downloadHandler.text);
 				}
 
 				//Debug.Log(www.downloadHandler.text);

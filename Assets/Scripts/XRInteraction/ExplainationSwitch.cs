@@ -26,8 +26,8 @@ namespace UnityEngine.XR.Interaction.Toolkit
         // Start is called before the first frame update
         void Start()
         {
-            uiSample.SetActive(false);
             /*
+            uiSample.SetActive(false);
             leftControllerPoke.SetActive(true);
             leftControllerRay.SetActive(true);
             leftControllerDirect.SetActive(true);
@@ -45,7 +45,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         void Update()
         {
             if(m_ControlInfoToggleAction.action.triggered){
-                //uiSample.SetActive(!uiSample.activeSelf);
+                uiSample.SetActive(!uiSample.activeSelf);
                 leftControllerInfo.SetActive(!leftControllerInfo.activeSelf);
                 leftControllerPoke.SetActive(!leftControllerPoke.activeSelf);
                 leftControllerRay.SetActive(!leftControllerRay.activeSelf);

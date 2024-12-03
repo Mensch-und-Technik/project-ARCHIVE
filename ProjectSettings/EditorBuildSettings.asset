@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/white_basis.unity
     guid: c5b74726a6b166f4c83dc752c861f25a
+  - enabled: 0
+    path: Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/DemoScene.unity
+    guid: 319dafa5c80f29f428dc1e0d03f04177
   m_configObjects:
     WebXR.Settings: {fileID: 11400000, guid: cce3fda5abdddc6479dfe3091080cdae, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ecd542c19483d4b4b9716a32dee3892d, type: 2}
