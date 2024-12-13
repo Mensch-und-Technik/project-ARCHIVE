@@ -2,7 +2,7 @@
 //Step 2: Compare assets with database. If an entry for an item exists load from given coordinates x, y, z. Else, make new DB entry (default values of x, y, and z = 0).
 //Step 2.5: If there is an entry but no corresponding item, remove entry from DB. (?)
 //Step 3: Load new items to the scene.
-//Step 4: Write new coordinates of each item to the DB.
+//Step 4: Write new coordinates of each item to the DB <-- only after UpdateRecords button has been pressed.
 
 using System.Collections;
 using System.Collections.Generic;
@@ -17,10 +17,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
 public class LoadResourcesFromURL : MonoBehaviour
 	{
 		private string globalStringOfTruth = "";
-		//public WebXRController physicalController;
-		//public ActionBasedController physicalController;
-		public Camera m_camera;
-
 		
 		void Start(){
 			//Coroutine GetAssetsList() starts coroutine UpdateRecords() + calls CreateMediaObjects() which again starts coroutine DownloadImage() 
@@ -29,34 +25,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 		}
 		void Update()
     	{
-			/*
-			if(physicalController.GetButton(WebXRController.ButtonTypes.ButtonA)){
-				Debug.Log("Button A was pressed");
 
-				//m_camera.GetComponent<WebXRCameraSettings>().VRClearFlags = CameraClearFlags.SolidColor;
-				//m_camera.GetComponent<WebXRCameraSettings>().VRBackgroundColor = Color.clear;
-
-				StartCoroutine(UpdateRecords(globalStringOfTruth));
-			};
-			if (Input.touchCount > 0)
-			{
-				Debug.Log("Screen touched");
-				
-				//m_camera.GetComponent<WebXRCameraSettings>().ARClearFlags = CameraClearFlags.SolidColor;
-				//m_camera.GetComponent<WebXRCameraSettings>().ARBackgroundColor = Color.clear;
-
-				StartCoroutine(UpdateRecords(globalStringOfTruth));
-			}
-			if (Input.GetKeyUp("space"))
-			{
-				Debug.Log("Space key was released");
-
-				//m_camera.GetComponent<WebXRCameraSettings>().NormalClearFlags = CameraClearFlags.SolidColor;
-				//m_camera.GetComponent<WebXRCameraSettings>().NormalBackgroundColor = Color.clear;
-				
-				StartCoroutine(UpdateRecords(globalStringOfTruth));
-			}
-			*/
 		}
 		IEnumerator GetAssetsList(string uri)
 		{
@@ -81,10 +50,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 						//Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
 						string stringOfTruth = webRequest.downloadHandler.text;
 						globalStringOfTruth = stringOfTruth;
-						//string[] arrayOfTruth = stringOfTruth.Split(' ');
 						CreateMediaObjects(stringOfTruth);
-						//StartCoroutine(ReadRecords(stringOfTruth));
-						//StartCoroutine(UpdateRecords(stringOfTruth));
 						break;
 				}
 			}
@@ -101,24 +67,16 @@ public class LoadResourcesFromURL : MonoBehaviour
 					GameObject myGO = new GameObject();
 					//myGO.SetActive(false);
 					myGO.name = asset;
-					//myGO.tag = "Interactable";
-					//myGO.transform.position = new Vector3((float)mediaCounter*1.5f,2.25f,2.5f);
-					//myGO.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-					//myGO.transform.SetParent(GameObject.Find("Interactables").transform);
+					myGO.tag = "Interactable";
 
 					myGO.AddComponent<Canvas>();
-					//myGO.AddComponent<CanvasScaler>();
-					//myGO.AddComponent<GraphicRaycaster>();
 					Canvas myCanvas = myGO.GetComponent<Canvas>();
 					myCanvas.renderMode = RenderMode.WorldSpace;
 					myCanvas.worldCamera = Camera.main;
 					RectTransform rectTForm = myCanvas.GetComponent<RectTransform>();	//= new Vector2(1, 1);
 
 					myGO.AddComponent<BoxCollider>();
-					//TO-DO: set Box Collider Size 1,1,0
-					//myGO.AddComponent(typeof(MouseDragObject));
 					myGO.AddComponent(typeof(XRGrabInteractable));
-					//myGO.AddComponent<XRGrabInteractable>();
 					myGO.GetComponent<Rigidbody>().useGravity = false;
 					myGO.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -178,39 +136,31 @@ public class LoadResourcesFromURL : MonoBehaviour
 						GameObject currentObject;
 						string newAssets = stringOfTruth;
 						foreach (var fullAsset in fullAssetsArray){
-							//Debug.Log(fullAsset);
 							if(fullAsset == ""){
 								//Debug.Log("empty String item");
 							} else {
 							string[] assetColumns = fullAsset.Split(",");
-							//Debug.Log(assetColumns[0]);
 							currentObject = GameObject.Find(assetColumns[0]);
 							currentObject.transform.localPosition = new Vector3(float.Parse(assetColumns[1], CultureInfo.InvariantCulture), float.Parse(assetColumns[2], CultureInfo.InvariantCulture), float.Parse(assetColumns[3], CultureInfo.InvariantCulture));
 							Quaternion targetRot = Quaternion.Euler(float.Parse(assetColumns[4], CultureInfo.InvariantCulture), float.Parse(assetColumns[5], CultureInfo.InvariantCulture), float.Parse(assetColumns[6], CultureInfo.InvariantCulture));
-							//Debug.Log(targetRot.eulerAngles.x + " " + targetRot.eulerAngles.y + " " + targetRot.eulerAngles.z);
 							currentObject.transform.rotation = targetRot;
 							newAssets = newAssets.Replace(assetColumns[0], "");
 							}
 						}
 
 						string[] newAssetsArray = newAssets.Split(" ");
-						//Debug.Log("|" + newAssets + "|" + newAssetsArray.Length);
 						
 						int mediaCounter = 0;
 						foreach (var newAsset in newAssetsArray){
-							//Debug.Log(newAsset);
 							if(newAsset == ""){
 								//Debug.Log("Empty String");
 							} else {
-								//Debug.Log("|" + newAsset + "|");
 								currentObject = GameObject.Find(newAsset);
 								currentObject.transform.position = new Vector3((float)mediaCounter*1.5f,2.25f,2.5f);
 								currentObject.transform.rotation = Quaternion.Euler(0,0,0);
 							}
 							mediaCounter++;
 						}
-						//CreateMediaObjects(assets);
-						//StartCoroutine(UpdateRecords(stringOfTruth));
 						break;
 				}
 			}
@@ -230,15 +180,10 @@ public class LoadResourcesFromURL : MonoBehaviour
 			StartCoroutine(UpdateRecords(globalStringOfTruth));
 		}
 		IEnumerator UpdateRecords(string assetsString){
-
-			//Debug.Log(assetsString);
 			
-			//TO-DO: Implement save button. Only UpdateRecords() after button has been used. 
+			//TO-DO:
 			//Currently all given Media objects get updatet. Do not update media that has not been moved away from default position. => gets reloaded next time eventually.
 			//Look into lookUp Pos + Rot after a file has been deleted. Objects move to strange places..
-
-			//m_camera.clearFlags = CameraClearFlags.SolidColor;
-			//m_camera.backgroundColor = Color.clear;
 
 			//Create a Web Form
 			WWWForm form = new WWWForm();

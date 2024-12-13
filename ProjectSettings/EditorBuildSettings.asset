@@ -5,24 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/MainMenu.unity
-    guid: d428d962368a67344a72a50a05b06a58
-  - enabled: 0
-    path: Assets/Scenes/mikwe.unity
-    guid: a992047aa92f0654cba018f323e9e099
-  - enabled: 0
-    path: Assets/Scenes/roterturm.unity
-    guid: 207afcec19a02b64381f462dedf51c7f
-  - enabled: 0
-    path: Assets/Scenes/desert_basis.unity
-    guid: 7465bdce70b64db4c8c708c63cad298c
   - enabled: 1
     path: Assets/Scenes/white_basis.unity
     guid: c5b74726a6b166f4c83dc752c861f25a
-  - enabled: 0
-    path: Assets/Samples/XR Interaction Toolkit/2.5.4/Starter Assets/DemoScene.unity
-    guid: 319dafa5c80f29f428dc1e0d03f04177
   m_configObjects:
     WebXR.Settings: {fileID: 11400000, guid: cce3fda5abdddc6479dfe3091080cdae, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: ecd542c19483d4b4b9716a32dee3892d, type: 2}
