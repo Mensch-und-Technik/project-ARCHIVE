@@ -67,7 +67,7 @@ public class LoadResourcesFromURL : MonoBehaviour
 					GameObject myGO = new GameObject();
 					//myGO.SetActive(false);
 					myGO.name = asset;
-					myGO.tag = "Interactable";
+					//myGO.tag = "Interactable";
 
 					myGO.AddComponent<Canvas>();
 					Canvas myCanvas = myGO.GetComponent<Canvas>();
