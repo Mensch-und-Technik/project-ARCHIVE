@@ -7,7 +7,6 @@ The project is substantially based on [WebXR export](https://github.com/De-Panth
 Additionally, connections to a filesystem and a database are established via php scripts.
 
 ---
-
 ## Getting Started
 1. Download the repository and open it as a Unity project (v2022.3.24f1) via the Unity Hub. <br> At this stage already, everything will be setup and ready to build a web application (though, without the database; see step 4).
 2. ```File > Build Settings > Platform: WebGL > Build > choose directory > confirm```. According to the ```Assets > WebGLTemplate```, the directory of choice now contains several files and folders that make the app.
@@ -29,14 +28,12 @@ Additionally, connections to a filesystem and a database are established via php
 
 Through your browser, you can now visit the website where the application is hosted  (local or remote) and it will start with the desktop version and two buttons to choose either an AR or VR inline-session.
 
----
 ## Platforms
 - The app was tested on the google Pixel 8 mobile phone using chrome browser. Issues were found with Firefox browser.
 - To the best of our knowledge apple devices do not support WebXR yet (with the Apple Vision Pro being a potential exception).
 - The app was also tested on a Meta Quest 3.
 - In general, WebXR AR sessions are designed for monoscopic display only (and the camera is always on, as per the original idea of AR). VR sessions on the other hand are designed for stereoscopic display only. While both AR and VR buttons are enabled on both mobile and HMD (and both devices at least theoretically can handle it), the app only works as expected when selecting the AR session on mobile and the VR session on HMDs. Btw. there is the necessity to have the [user intentionally interact](https://immersive-web.github.io/webxr/#user-intention) with the web app, i.e. clicking a button, which is a security feature of WebXR. It does not work to emulate a button-click.
 
----
 ## Important Components/Options
 - ```LoadResourcesFromURL.cs```
 - ```Edit > Project Settings > XR Plug-in Management > WebXR``` (e.g. Required Reference Space, Hit-Test under AR optional features, etc. )
@@ -44,7 +41,6 @@ Through your browser, you can now visit the website where the application is hos
 - ```ActionBasedControllerManager.cs``` and respectively [Input Action Assets](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/ActionAssets.html) in general
 - ```ExplanationSwitch.cs```
 
----
 ## Non-interactive build
 For a more secure build that does not utilise php and thus no database:
 - deactivate component ```LoadResoureFromURL.cs``` and activate component```LoadResoureFromURL_offline.cs```
@@ -53,7 +49,6 @@ For a more secure build that does not utilise php and thus no database:
 - deactivate component ```ExplanationSwitch.cs```
 - deactivate Gameobjects ```Poke Interactor```, ```Direct Interactor```, ```Ray Interactor``` for both left and right controller
 
----
 ## Further ideas, TO-DOs, bugs-to-be-fixed
 - Most importantly: The integration of more sophisticated media other than images or their display in a more appealing (read: dynamic) way than just plain images but maybe animations.
 - Looking at 2-dimensional posters from a "virtual" perspective may be the biggest UX/accessibility issue. Perhaps one wants the posters to snap into something like a reader-mode where it appears as if one is browsing a pdf on screen (with all the accessibility feature like pinching to zoom in).
@@ -65,9 +60,7 @@ For a more secure build that does not utilise php and thus no database:
 - *To-be-fixed:* Holding a media object with the right hand controller via direct interaction (i.e., not via ray interaction) and using the other controller to move at the same time makes one fall of the ground or elevate into the sky.
 - *To-be-fixed:* If media is deleted from the ```assets``` directory while the app is running and new media is added, this may not spawn at the default position.
 
-
----
 ## Further Resources
-[WebXR](https://immersive-web.github.io)
-[tu-chemnitz.de phpmyadmin web interface](https://dbwebadmin.hrz.tu-chemnitz.de/phpmyadmin/index.php)
-[Unity + databases tutorial](https://youtu.be/SKbY-0zt2VE?feature=shared)
+- [WebXR](https://immersive-web.github.io)
+- [tu-chemnitz.de phpmyadmin web interface](https://dbwebadmin.hrz.tu-chemnitz.de/phpmyadmin/index.php)
+- [Unity + databases tutorial](https://youtu.be/SKbY-0zt2VE?feature=shared)
