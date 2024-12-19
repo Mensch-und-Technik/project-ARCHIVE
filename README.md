@@ -10,6 +10,8 @@ Additionally, connections to a filesystem and a database are established via php
 ## Getting Started
 1. Download the repository and open it as a Unity project (v2022.3.24f1) via the Unity Hub. <br> At this stage already, everything will be setup and ready to build a web application (though, without the database; see step 4).
 2. ```File > Build Settings > Platform: WebGL > Build > choose directory > confirm```. According to the ```Assets > WebGLTemplate```, the directory of choice now contains several files and folders that make the app.
+There may be the necessity to create an ```assets``` folder in the root directory of the app as empty folders do not get into the build even though it is part of the template. [Could potentially be fixed by adding a README.md or a hidden file to the folder. Be aware that this might crash the logic of the ```LoadResourcesFromURL.cs``` script.]
+
 3. Upload the entire content to your preferred webhosting platform or run it locally, e.g. using [WAMP](https://wampserver.aviatechno.net/).
 
     **!** Note that WebXR requires https connections. Look into [setupLocalDevEnvironment.md](setupLocalDevEnvironment.md) on how to set it up.
@@ -32,7 +34,7 @@ Through your browser, you can now visit the website where the application is hos
 - The app was tested on the google Pixel 8 mobile phone using chrome browser. Issues were found with Firefox browser.
 - To the best of our knowledge apple devices do not support WebXR yet (with the Apple Vision Pro being a potential exception).
 - The app was also tested on a Meta Quest 3.
-- In general, WebXR AR sessions are designed for monoscopic display only (and the camera is always on, as per the original idea of AR). VR sessions on the other hand are designed for stereoscopic display only. While both AR and VR buttons are enabled on both mobile and HMD (and both devices at least theoretically can handle it), the app only works as expected when selecting the AR session on mobile and the VR session on HMDs. Btw. there is the necessity to have the [user intentionally interact](https://immersive-web.github.io/webxr/#user-intention) with the web app, i.e. clicking a button, which is a security feature of WebXR. It does not work to emulate a button-click.
+- In general, WebXR AR sessions are designed for monoscopic display only (and the camera is always on, as per the original idea of AR). WebXR VR sessions on the other hand are designed for stereoscopic display only. While both AR and VR buttons are enabled on both mobile and HMD (and most devices at least theoretically can handle it), the app only works as expected when selecting the AR session on mobile and the VR session on HMDs. Frankly, this project does not implement AR in its original sense as there is no see through in AR mode with the current settings (though this is perfectly doable. For those who dare looking at a work-in-progress: theARinARCHIVE.zip [find me on the MuT NAS]). <br> Btw. there is the necessity to have the [user intentionally interact](https://immersive-web.github.io/webxr/#user-intention) with the web app, i.e. clicking a button, which is a security feature of WebXR. It does not work to emulate a button-click.
 
 ## Important Components/Options
 - ```LoadResourcesFromURL.cs```
@@ -63,4 +65,4 @@ For a more secure build that does not utilise php and thus no database:
 ## Further Resources
 - [WebXR](https://immersive-web.github.io)
 - [tu-chemnitz.de phpmyadmin web interface](https://dbwebadmin.hrz.tu-chemnitz.de/phpmyadmin/index.php)
-- [Unity + databases tutorial](https://youtu.be/SKbY-0zt2VE?feature=shared)
+- [Unity + databases tutorial (part 1 in a series of 4)](https://youtu.be/SKbY-0zt2VE?feature=shared)
